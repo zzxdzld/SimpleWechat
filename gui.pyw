@@ -17,3 +17,10 @@ def a():
 	Button(root,text='继续',width=37,command=show)\
 .grid(row=2,column=1,sticky=W,padx=0,pady=5)
 	mainloop()
+	name=str(name)
+	msg=str(msg)
+	return [name,msg]
+def doc():
+	messagebox.showinfo("""This Program is invented by Percival.
+该程序由郑载序开发。""")
+	return 0
