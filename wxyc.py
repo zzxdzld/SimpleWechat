@@ -24,7 +24,7 @@ def image():
 def video():
   movname=e.enterbox("请输入文件名(请将图片放入“mov”文件夹)")
   kzm=os.path.splitext(imgname)[-1]
-  if kzm == ".mov" or kzm == "mp4":
+  if kzm == ".mov" or kzm == ".mp4":
     send_image("mov\\"+imgname)
 def rc():
   import itchat
@@ -32,7 +32,7 @@ def rc():
   import time
   import cv2 #如果使用opencv的话可以远程拍照
   sendMsg = u"[消息助手]:暂时无法回复" #自动回复内容
-  usageMsg = u"使用方法：\n1.运行CMD命令：cmd xxx (xxx为命令)\n-例如关机命令:\ncmd shutdown -s -t 0 \n2.获取一张图片：cap\n3.启用消息助手(默认关闭)：ast\n4.关闭消息助手：astc"
+  usageMsg = u"使用方法：\n1.运行CMD命令：cmd xxx \n2.获取一张图片：cap\n3.启用消息助手(默认关闭)：ast\n4.关闭消息助手：astc"
   @itchat.msg_register('Text') #注册文本消息
   def text_reply(msg): #心跳程序
       global flag
@@ -46,7 +46,7 @@ def rc():
               cv2.imwrite("cap\\weixinTemp.jpg",img)
               itchat.send('@img@%s'%u'cap\\weixinTemp.jpg','filehelper')
               cap.release()
-          if message[0]+message[1]+message[2] == "cmd": #远程执行cmd命令 
+          if message[0:2] == "cmd": #远程执行cmd命令 
               os.system(message.strip(message[0]+message[1]+message[2]+message[3])) #远程执行cmd命令，可以实现关机
           if message == "ast":
               flag = 1
@@ -54,6 +54,8 @@ def rc():
           if message == "astc":
               flag = 0
               itchat.send("消息助手已关闭","filehelper")
+          if message == "关机":
+              os.system('shutdown -s -t 0')
       elif flag==1:
           itchat.send(sendMsg,fromName)
           myfile.write(message) #保存消息内容
@@ -75,3 +77,5 @@ def turing():
     return reply
     itchat.auto_login(hotReload=True)
     itchat.run()
+def clean():
+  pass
